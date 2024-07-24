@@ -7,7 +7,7 @@ export class Reserve extends Document {
   @Prop({ type: String, default: uuidv4, unique: true })
   id: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: 'habilitado' })
   type: string;
   
   @Prop({ type: String, required: true, ref: 'User' })
