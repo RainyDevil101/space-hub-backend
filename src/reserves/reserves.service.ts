@@ -41,6 +41,14 @@ export class ReservesService {
     }
   }
 
+  async findByUser(userId: string): Promise<Reserve[]> {
+    try {
+      return await this.reserveModel.find({ userId }).exec();
+    } catch (error) {
+      throw new BadRequestException('Error retrieving reserves for user');
+    }
+  }
+
   async update(id: string, updateReserveDto: UpdateReserveDto): Promise<Reserve> {
     try {
       const updatedReserve = await this.reserveModel.findOneAndUpdate({ id }, updateReserveDto, { new: true }).exec();

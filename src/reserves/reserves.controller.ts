@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ReservesService } from './reserves.service';
 import { CreateReserveDto } from './dto/create-reserve.dto';
 import { UpdateReserveDto } from './dto/update-reserve.dto';
@@ -20,6 +28,11 @@ export class ReservesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reservesService.findOne(id);
+  }
+
+  @Get('user/:userId')
+  findByUser(@Param('userId') userId: string) {
+    return this.reservesService.findByUser(userId);
   }
 
   @Patch(':id')
