@@ -19,16 +19,16 @@ export class ReservesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.reservesService.findOne(+id);
+    return this.reservesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReserveDto: UpdateReserveDto) {
-    return this.reservesService.update(+id, updateReserveDto);
+    return this.reservesService.update(id, updateReserveDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.reservesService.remove(+id);
+    return this.reservesService.remove(id);
   }
 }

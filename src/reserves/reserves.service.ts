@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { CreateReserveDto } from './dto/create-reserve.dto';
 import { UpdateReserveDto } from './dto/update-reserve.dto';
 import { Reserve } from './entities/reserve.entity';
@@ -12,25 +12,55 @@ export class ReservesService {
     private readonly reserveModel: Model<Reserve>,
   ) {}
 
-  async create(createReserveDto: CreateReserveDto) {
-    const reserve = await this.reserveModel.create(createReserveDto);
-
-    return reserve;
+  async create(createReserveDto: CreateReserveDto): Promise<Reserve> {
+    try {
+      const reserve = new this.reserveModel(createReserveDto);
+      return await reserve.save();
+    } catch (error) {
+      throw new BadRequestException('Error creating the reserve');
+    }
   }
 
-  findAll() {
-    return `This action returns all reserves`;
+  async findAll(): Promise<Reserve[]> {
+    try {
+      return await this.reserveModel.find().exec();
+    } catch (error) {
+      throw new BadRequestException('Error fetching reserves');
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} reserve`;
+  async findOne(id: string): Promise<Reserve> {
+    try {
+      const reserve = await this.reserveModel.findOne({ id }).exec();
+      if (!reserve) {
+        throw new NotFoundException(`Reserve with ID ${id} not found`);
+      }
+      return reserve;
+    } catch (error) {
+      throw new NotFoundException(`Error fetching reserve with ID ${id}`);
+    }
   }
 
-  update(id: number, updateReserveDto: UpdateReserveDto) {
-    return `This action updates a #${id} reserve`;
+  async update(id: string, updateReserveDto: UpdateReserveDto): Promise<Reserve> {
+    try {
+      const updatedReserve = await this.reserveModel.findOneAndUpdate({ id }, updateReserveDto, { new: true }).exec();
+      if (!updatedReserve) {
+        throw new NotFoundException(`Reserve with ID ${id} not found`);
+      }
+      return updatedReserve;
+    } catch (error) {
+      throw new BadRequestException('Error updating the reserve');
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} reserve`;
+  async remove(id: string): Promise<void> {
+    try {
+      const deletedReserve = await this.reserveModel.findOneAndDelete({ id }).exec();
+      if (!deletedReserve) {
+        throw new NotFoundException(`Reserve with ID ${id} not found`);
+      }
+    } catch (error) {
+      throw new BadRequestException('Error deleting the reserve');
+    }
   }
 }

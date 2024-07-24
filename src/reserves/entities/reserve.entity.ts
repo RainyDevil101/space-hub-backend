@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Schema()
 export class Reserve extends Document {
-  @Prop({ type: String })
+  @Prop({ type: String, default: uuidv4, unique: true })
   id: string;
 
   @Prop({ required: true })
