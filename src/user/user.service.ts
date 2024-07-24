@@ -15,7 +15,16 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const newUser = new this.userModel(createUserDto);
+      // Hashear la contraseña antes de guardar
+      const saltOrRounds = 10;
+      const hashedPassword = await bcrypt.hash(createUserDto.password, saltOrRounds);
+      
+      // Crear un nuevo usuario con la contraseña hasheada
+      const newUser = new this.userModel({
+        ...createUserDto,
+        password: hashedPassword
+      });
+      
       return await newUser.save();
     } catch (error) {
       if (error.code === 11000) { // Error de clave duplicada
