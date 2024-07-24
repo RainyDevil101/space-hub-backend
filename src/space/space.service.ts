@@ -23,7 +23,7 @@ export class SpaceService {
 
   async findAll(): Promise<Space[]> {
     try {
-      return await this.spaceModel.find().exec();
+      return await this.spaceModel.find({ state: 'habilitado'}).exec();
     } catch (error) {
       throw new BadRequestException('Error retrieving spaces', error);
     }

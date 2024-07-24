@@ -8,11 +8,11 @@ import { EnvConfiguration, JoiValidationSchema } from './config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGODB),
     ConfigModule.forRoot({
       load: [EnvConfiguration],
       validationSchema: JoiValidationSchema,
     }),
+    MongooseModule.forRoot(process.env.MONGODB),
     UserModule,
     ReservesModule,
     SpaceModule,
