@@ -4,14 +4,18 @@ import { UserModule } from './user/user.module';
 import { ReservesModule } from './reserves/reserves.module';
 import { SpaceModule } from './space/space.module';
 import { ConfigModule } from '@nestjs/config';
+import { EnvConfiguration, JoiValidationSchema } from './config';
 
 @Module({
   imports: [
     MongooseModule.forRoot(process.env.MONGODB),
+    ConfigModule.forRoot({
+      load: [EnvConfiguration],
+      validationSchema: JoiValidationSchema,
+    }),
     UserModule,
     ReservesModule,
     SpaceModule,
-    ConfigModule.forRoot()
   ],
 })
 export class AppModule {}
