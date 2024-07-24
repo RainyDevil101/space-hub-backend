@@ -4,16 +4,16 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Schema()
 export class Reserve extends Document {
-  @Prop({ type: String, default: uuidv4, unique: true })
+  @Prop({ type: String })
   id: string;
 
   @Prop({ required: true })
   type: string;
   
-  @Prop({ required: true })
+  @Prop({ type: String, required: true, ref: 'User' })
   userId: string;
   
-  @Prop({ required: true })
+  @Prop({ type: String, required: true, ref: 'Space' })
   spaceId: string;
   
   @Prop({ default: Date.now })

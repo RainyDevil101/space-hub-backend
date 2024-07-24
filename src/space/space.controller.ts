@@ -19,16 +19,16 @@ export class SpaceController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.spaceService.findOne(+id);
+    return this.spaceService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSpaceDto: UpdateSpaceDto) {
-    return this.spaceService.update(+id, updateSpaceDto);
+    return this.spaceService.update(id, updateSpaceDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.spaceService.remove(+id);
+    return this.spaceService.remove(id);
   }
 }

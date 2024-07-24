@@ -21,6 +21,10 @@ export class Space extends Document {
 
   @Prop({ default: Date.now })
   updatedAt: Date;
+
+  @Prop({ required: true })
+  areaType: string;
+
 }
 
 export const SpaceSchema = SchemaFactory.createForClass(Space);

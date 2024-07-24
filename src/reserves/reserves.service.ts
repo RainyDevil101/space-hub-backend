@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReserveDto } from './dto/create-reserve.dto';
 import { UpdateReserveDto } from './dto/update-reserve.dto';
+import { Reserve } from './entities/reserve.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class ReservesService {
-  create(createReserveDto: CreateReserveDto) {
-    return 'This action adds a new reserve';
+  constructor(
+    @InjectModel(Reserve.name)
+    private readonly reserveModel: Model<Reserve>,
+  ) {}
+
+  async create(createReserveDto: CreateReserveDto) {
+    const reserve = await this.reserveModel.create(createReserveDto);
+
+    return reserve;
   }
 
   findAll() {
